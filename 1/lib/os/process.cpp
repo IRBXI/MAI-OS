@@ -1,18 +1,14 @@
 #include "process.hpp"
 #include <cerrno>
-#include <iostream>
 #include <sys/wait.h>
 #include <system_error>
 #include <unistd.h>
 
-namespace {
-const int STDIN = 0;
-const int STDOUT = 1;
-} // namespace
+namespace lib::os {
 
 // After the call to this function pipe_to_child's read descriptor will be
 // closed and pipe_from_child's write descriptor will be closed since the copies
-// of them will be used in the child proccess
+// of them will be used in the child process
 void CreateProcessWithPipesConnection(char *const program_name,
                                       Pipe &pipe_to_child,
                                       Pipe &pipe_from_child) {
@@ -26,10 +22,8 @@ void CreateProcessWithPipesConnection(char *const program_name,
     }
     // We are already in the child proccess
 
-    std::cerr << getpid() << '\n';
-
-    dup2(pipe_to_child.ReadDescriptor(), STDIN);
-    dup2(pipe_from_child.WriteDescriptor(), STDOUT);
+    dup2(pipe_to_child.ReadDescriptor(), STDIN_FILENO);
+    dup2(pipe_from_child.WriteDescriptor(), STDOUT_FILENO);
 
     pipe_to_child.CloseReadDescriptor();
     pipe_from_child.CloseWriteDescriptor();
@@ -41,3 +35,5 @@ void CreateProcessWithPipesConnection(char *const program_name,
                                 "Couldn't exec on a forked process");
     }
 }
+
+} // namespace lib::os

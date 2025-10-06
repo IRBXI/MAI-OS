@@ -1,5 +1,7 @@
 #include <cstddef>
 
+namespace lib::os {
+
 class Pipe {
   public:
     Pipe();
@@ -17,3 +19,5 @@ class Pipe {
   private:
     int pipe_fd_[2];
 };
+
+} // namespace lib::os

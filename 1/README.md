@@ -1,13 +1,12 @@
-# MAI-OOP-2
+# MAI-OS-1
 
-Вариант - 7
+Вариант - 5
 
-[Документ со всеми вариантами](https://github.com/DVDemon/mai_oop_examples_public/blob/main/homeworks/2025_%D0%9B%D0%A0_%D0%9E%D0%9E%D0%9F_2.pdf)
+[Документ со всеми вариантами](https://cloud.mail.ru/public/BurB/oPQiVk7Vc/%D0%9B%D0%A0/lab_work_1_v4.pdf)
 
 ## Структура проекта
 
 - `lib/` - исходный код библиотек
-- `tests/` - unit-тесты с использованием Google Test
 - `CMakeLists.txt` - конфигурация CMake
 
 ## Сборка и запуск
@@ -23,8 +22,5 @@ cmake ..
 # Сборка проекта
 make
 
-# Запуск основной программы
-./Lab2_exe
-
-# Запуск тестов
-./tests/unit
+# Запуск родительского процесса 
+./parent

@@ -3,6 +3,8 @@
 #include <system_error>
 #include <unistd.h>
 
+namespace lib::os {
+
 Pipe::Pipe() {
     int err = pipe(pipe_fd_);
     if (err == -1) {
@@ -39,3 +41,5 @@ void Pipe::Receive(void *buf, std::size_t count) {
                                 "Couldn't recieve data");
     }
 }
+
+} // namespace lib::os

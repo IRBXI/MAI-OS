@@ -1,0 +1,45 @@
+#include <cassert>
+#include <iostream>
+#include <sys/wait.h>
+#include <unistd.h>
+
+#include "memory_map.hpp"
+#include "process.hpp"
+#include "shared_memory_resource.hpp"
+
+int main() {
+    lib::os::SharedMemoryResource smr("/lab_shared_memory");
+
+    // The mapped memory basically consists of 2 ints
+    // first one desceribes who's message is currently in the buffer
+    // 1 means parent process
+    // 2 means child process
+    // the second int is just an int we are currently translating through the
+    // buffer
+    lib::os::MemoryMap<int> memory_map(smr, 2);
+
+    // We initially think that we just received a message from the child process
+    // because it makes the code on the child side a bit easier
+    memory_map[0] = 2;
+
+    char program_name[] = "child";
+    lib::os::CreateProcess(program_name);
+
+    int n;
+
+    while (std::cin >> n) {
+        memory_map[0] = 1;
+        memory_map[1] = n;
+
+        // Busy waiting for the child proccess to write back
+        // (Basically a spinlock)
+        while (memory_map[0] == 1) {
+        }
+
+        // If we receive -1 we terminate the proccess
+        // otherwise we continue to read the numbers from stdin
+        if (memory_map[1] == -1) {
+            std::exit(0);
+        }
+    }
+}

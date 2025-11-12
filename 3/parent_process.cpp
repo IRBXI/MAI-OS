@@ -21,6 +21,7 @@ int main() {
     // We initially think that we just received a message from the child process
     // because it makes the code on the child side a bit easier
     memory_map[0] = 2;
+    memory_map.Sync();
 
     char program_name[] = "child";
     lib::os::CreateProcess(program_name);
@@ -30,6 +31,7 @@ int main() {
     while (std::cin >> n) {
         memory_map[0] = 1;
         memory_map[1] = n;
+        memory_map.Sync();
 
         // Busy waiting for the child proccess to write back
         // (Basically a spinlock)

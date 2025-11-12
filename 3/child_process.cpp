@@ -24,6 +24,7 @@ int main() {
         if (n < 0 or lib::math::IsPrime(n)) {
             memory_map[1] = -1;
             memory_map[0] = 2;
+            memory_map.Sync();
             std::exit(0);
         }
 
@@ -31,5 +32,6 @@ int main() {
 
         memory_map[1] = 0;
         memory_map[0] = 2;
+        memory_map.Sync();
     }
 }

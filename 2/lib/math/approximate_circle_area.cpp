@@ -26,14 +26,17 @@ void *generate_points(void *arg) noexcept {
 
     std::uniform_real_distribution<long double> distribution(-1.0, 1.0);
 
+    int local_points_in_circle_count = 0;
+
     for (std::size_t i = 0; i < POINTS_PER_THREAD; ++i) {
         const Point a = {distribution(gen), distribution(gen)};
 
         if (is_inside_circle(a)) {
-            os::LockGuard lock_guard(thread_arg->mutex);
-            thread_arg->points_in_circle_count++;
+            local_points_in_circle_count++;
         }
     }
+    os::LockGuard lock_guard(thread_arg->mutex);
+    thread_arg->points_in_circle_count += local_points_in_circle_count;
 
     return nullptr;
 }

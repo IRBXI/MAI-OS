@@ -3,9 +3,9 @@
 
 namespace lib::math {
 
-const int THREAD_COUNT = 16;
+const int THREAD_COUNT = 8;
 
-const int POINTS_PER_THREAD = 1000000;
+const int POINTS_PER_THREAD = 100000000;
 
 const int TOTAL_POINTS_COUNT = THREAD_COUNT * POINTS_PER_THREAD;
 

@@ -11,6 +11,8 @@ class Mutex {
     Mutex();
     ~Mutex() noexcept;
 
+    Mutex(const Mutex &) = delete;
+
     void Lock() noexcept;
     void Unlock() noexcept;
 };

@@ -9,9 +9,10 @@
 int main() {
     std::ofstream compositesFile("composites.txt");
 
-    lib::os::SharedMemoryResource<false> smr("/lab_shared_memory");
+    lib::os::SharedMemoryResource<false> smr("/lab_shared_memory",
+                                             2 * sizeof(int));
 
-    lib::os::MemoryMap<int> memory_map(smr, 2);
+    lib::os::MemoryMap<int> memory_map(smr);
 
     int n;
     while (true) {

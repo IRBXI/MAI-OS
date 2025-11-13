@@ -8,7 +8,8 @@
 #include "shared_memory_resource.hpp"
 
 int main() {
-    lib::os::SharedMemoryResource<true> smr("/lab_shared_memory");
+    lib::os::SharedMemoryResource<true> smr("/lab_shared_memory",
+                                            2 * sizeof(int));
 
     // The mapped memory basically consists of 2 ints
     // first one desceribes who's message is currently in the buffer
@@ -16,7 +17,7 @@ int main() {
     // 2 means child process
     // the second int is just an int we are currently translating through the
     // buffer
-    lib::os::MemoryMap<int> memory_map(smr, 2);
+    lib::os::MemoryMap<int> memory_map(smr);
 
     // We initially think that we just received a message from the child process
     // because it makes the code on the child side a bit easier

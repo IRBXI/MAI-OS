@@ -11,7 +11,8 @@
 namespace lib::os {
 
 template <typename T>
-MemoryMap<T>::MemoryMap(SharedMemoryResource& smr, std::size_t len) {
+template <bool owns>
+MemoryMap<T>::MemoryMap(SharedMemoryResource<owns>& smr, std::size_t len) {
     void* buffer = mmap(NULL, len * sizeof(T), PROT_READ | PROT_WRITE,
                         MAP_SHARED, smr.GetFileDescriptor(), 0);
     if (buffer == MAP_FAILED) {

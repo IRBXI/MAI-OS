@@ -1,5 +1,4 @@
 #include <cassert>
-#include <cstdlib>
 #include <fstream>
 #include <unistd.h>
 
@@ -10,7 +9,7 @@
 int main() {
     std::ofstream compositesFile("composites.txt");
 
-    lib::os::SharedMemoryResource smr("/lab_shared_memory");
+    lib::os::SharedMemoryResource<false> smr("/lab_shared_memory");
 
     lib::os::MemoryMap<int> memory_map(smr, 2);
 
@@ -25,7 +24,7 @@ int main() {
             memory_map[1] = -1;
             memory_map[0] = 2;
             memory_map.Sync();
-            std::exit(0);
+            break;
         }
 
         compositesFile << n << std::endl;

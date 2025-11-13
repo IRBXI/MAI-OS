@@ -8,7 +8,7 @@
 #include "shared_memory_resource.hpp"
 
 int main() {
-    lib::os::SharedMemoryResource smr("/lab_shared_memory");
+    lib::os::SharedMemoryResource<true> smr("/lab_shared_memory");
 
     // The mapped memory basically consists of 2 ints
     // first one desceribes who's message is currently in the buffer
@@ -41,7 +41,7 @@ int main() {
         // If we receive -1 we terminate the proccess
         // otherwise we continue to read the numbers from stdin
         if (memory_map[1] == -1) {
-            std::exit(0);
+            break;
         }
     }
 }

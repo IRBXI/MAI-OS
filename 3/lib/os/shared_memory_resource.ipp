@@ -1,3 +1,5 @@
+#pragma once
+
 #include "shared_memory_resource.hpp"
 
 #include <fcntl.h>
@@ -7,7 +9,9 @@
 
 namespace lib::os {
 
-SharedMemoryResource::SharedMemoryResource(const char* name) : name_(name) {
+template <bool owns>
+SharedMemoryResource<owns>::SharedMemoryResource(const char* name)
+    : name_(name) {
     int fd = shm_open(name_, O_RDWR | O_CREAT, 0666);
     if (fd == -1) {
         throw std::system_error(errno, std::system_category(),
@@ -16,8 +20,16 @@ SharedMemoryResource::SharedMemoryResource(const char* name) : name_(name) {
     fd_ = fd;
 }
 
-SharedMemoryResource::~SharedMemoryResource() { shm_unlink(name_); }
+template <bool owns>
+int SharedMemoryResource<owns>::GetFileDescriptor() {
+    return fd_;
+}
 
-int SharedMemoryResource::GetFileDescriptor() { return fd_; }
+template <bool owns>
+SharedMemoryResource<owns>::~SharedMemoryResource() {
+    if constexpr (owns) {
+        shm_unlink(name_);
+    }
+}
 
 } // namespace lib::os

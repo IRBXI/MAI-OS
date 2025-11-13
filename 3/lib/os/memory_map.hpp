@@ -14,7 +14,9 @@ class MemoryMap {
 
   public:
     MemoryMap() = delete;
-    MemoryMap(SharedMemoryResource& smr, std::size_t len);
+
+    template <bool owns>
+    MemoryMap(SharedMemoryResource<owns>& smr, std::size_t len);
     ~MemoryMap();
 
     T& operator[](std::size_t pos) noexcept;

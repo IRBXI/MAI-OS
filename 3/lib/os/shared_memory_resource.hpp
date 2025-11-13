@@ -2,6 +2,7 @@
 
 namespace lib::os {
 
+template <bool owns>
 class SharedMemoryResource {
   private:
     const char* name_;
@@ -15,3 +16,5 @@ class SharedMemoryResource {
 };
 
 } // namespace lib::os
+
+#include "shared_memory_resource.ipp"

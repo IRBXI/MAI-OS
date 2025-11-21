@@ -1,4 +1,5 @@
 #include <cassert>
+#include <fstream>
 #include <iostream>
 #include <sys/wait.h>
 #include <unistd.h>
@@ -8,6 +9,10 @@
 #include "shared_memory_resource.hpp"
 
 int main() {
+    // Redirecting std::cin to read from the file
+    std::ifstream input_file("input.txt");
+    std::cin.rdbuf(input_file.rdbuf());
+
     lib::os::SharedMemoryResource<true> smr("/lab_shared_memory",
                                             2 * sizeof(int));
 
